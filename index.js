@@ -39,7 +39,7 @@ bot.start(message => {
   );
 });
 
-bot.hears(/\b(?:genera|generate|create|random)\b/, message => {
+bot.hears(/\b(?:Genera|genera|Generate|generate|Create|create|random)\b/, message => {
   axios
     .get(`${apiurl}`)
     .then(res => {
