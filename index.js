@@ -5,10 +5,14 @@ const db = new sqlite3.Database("./db.sqlite");
 const express = require("express");
 const app = express();
 const Telegraf = require("telegraf");
+const Extra = require('telegraf/extra')
+const Markup = require('telegraf/markup')
 const bot = new Telegraf(process.env.TELEGRAM_KEY);
 const axios = require("axios");
 const port = process.env.PORT || 3000;
 const apiurl = process.env.API_ENDPOINT
+
+bot.use(Telegraf.log())
 
 app.get("/", function(req, res) {
   db.serialize(function() {
@@ -31,6 +35,16 @@ app.get("/:string", function(req, res) {
     );
   });
 });
+
+
+bot.command('help', ({ reply }) =>
+  reply('One time keyboard', Markup
+    .keyboard(['emom', 'amrap', 'for time'])
+    .oneTime()
+    .resize()
+    .extra()
+  )
+)
 
 bot.start(message => {
   console.log("started:", message.from.id);
@@ -74,5 +88,5 @@ bot.on("text", message => {
 
 bot.message;
 
-bot.startPolling();
+bot.launch()
 app.listen(port)
