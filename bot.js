@@ -9,10 +9,11 @@ module.exports = function() {
 
   bot.use(Telegraf.log());
   bot.start(message => {
-    console.log("started:", message.from.id);
-    return message.replyWithMarkdown(
-      "*Hello crossfitter* 🏋️‍♀️🤸‍♀️🏃‍♀️ start typing _generate_ or _genera_ or _random_ and you will get a wod or just write your favorite exercise ed. thruster and watch the magic!"
-    );
+    const header = "<b>Hello Crossfitter! 🏋️‍♀️ 🏃‍♀️ 🤸‍♀️</b>"
+    const subtitle = "This is a bot that generates wods!"
+    const content = "type <em>random, generate, create, etc.</em> if you want a random wod or type es.<em>emom, clean&jerk, amrap 25, row, for time </em> or every skill that comes to your mind, for get a matching wod."
+    const footer = "if you need help type /wod command."
+    return message.replyWithHTML(`${header}\n\ ${subtitle}\n\ ${content}\n\ ${footer}`);
   });
   bot.command("wod", ({ reply }) =>
     reply(
