@@ -14,10 +14,10 @@ module.exports = function() {
       "*Hello crossfitter* 🏋️‍♀️🤸‍♀️🏃‍♀️ start typing _generate_ or _genera_ or _random_ and you will get a wod or just write your favorite exercise ed. thruster and watch the magic!"
     );
   });
-  bot.command("help", ({ reply }) =>
+  bot.command("wod", ({ reply }) =>
     reply(
       "One time keyboard",
-      Markup.keyboard(["emom", "amrap", "for time"])
+      Markup.keyboard(["emom", "amrap", "for time", "random"])
         .oneTime()
         .resize()
         .extra()
@@ -25,10 +25,10 @@ module.exports = function() {
   );
 
   bot.hears(
-    /\b(?:Genera|genera|Generate|generate|Create|create|random)\b/,
+    /\b(?:Genera|genera|Generate|generate|Create|create|random|Random)\b/,
     message => {
       axios
-        .get(apiurl)
+        .get(`${apiurl}wods/random`)
         .then(res => {
           const data = res.data.content;
 
@@ -37,7 +37,7 @@ module.exports = function() {
         .catch(err => {
           console.log(err);
           return message.reply(
-            "try to another search (in english) or contact me at:pierdomenicoreitano@gmail.com"
+            "sorry but our servers has problems pierdomenicoreitano@gmail.com"
           );
         });
     }
@@ -46,7 +46,7 @@ module.exports = function() {
   bot.on("text", message => {
     const substr = message.message.text;
     axios
-      .get(apiurl + substr)
+      .get(`${apiurl}wods/${substr}`)
       .then(res => {
         const data = res.data.content;
 
@@ -55,7 +55,7 @@ module.exports = function() {
       .catch(err => {
         console.log(err);
         return message.reply(
-          "try to another search (in english) or contact me at:pierdomenicoreitano@gmail.com"
+          "🏋️‍♀️ sorry but wie didn't find the exericse"
         );
       });
   });
