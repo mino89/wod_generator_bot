@@ -49,22 +49,22 @@ module.exports = function() {
     }
   );
 
-  bot.on("text", message => {
-    const substr = message.message.text;
-    axios
-      .get(`${apiurl}wods/${substr}`)
-      .then(res => {
-        const data = res.data.content;
+  // bot.on("text", message => {
+  //   const substr = message.message.text;
+  //   axios
+  //     .get(`${apiurl}wods/${substr}`)
+  //     .then(res => {
+  //       const data = res.data.content;
 
-        return message.reply(data);
-      })
-      .catch(err => {
-        console.log(err);
-        return message.reply(
-          "🏋️‍♀️ sorry but wie didn't find the exericse"
-        );
-      });
-  });
+  //       return message.reply(data);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       return message.reply(
+  //         "🏋️‍♀️ sorry but wie didn't find the exericse"
+  //       );
+  //     });
+  // });
 
   bot.on("inline_query", async ({ inlineQuery, answerInlineQuery }) => {
     const response = await axios
