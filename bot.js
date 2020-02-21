@@ -66,7 +66,7 @@ module.exports = function() {
       });
   });
 
-  bot.on("inline_query", async ({ inlineQuery, answerInlineQuery, reply }) => {
+  bot.on("inline_query", async ({ inlineQuery, answerInlineQuery }) => {
     const response = await axios
       .get(`${apiurl}wods/${inlineQuery.query}`)
       .then(res => {
