@@ -88,7 +88,7 @@ module.exports = function() {
       };
 
     return answerInlineQuery([wods]);
-    
+
   });
 
   bot.launch();
