@@ -7,7 +7,7 @@ module.exports = function() {
   const wakeUpDyno = require("./wokeDyno.js"); // my module!
   const apiurl = process.env.API_ENDPOINT;
   const data = [];
-
+  
   db.serialize(function() {
     db.each("SELECT * FROM wod", function(err, row) {
       if (err) {
@@ -48,6 +48,7 @@ module.exports = function() {
     let index = getRandomInt(0, filtered.length);
     res.send(filtered[index]);
   });
+
   app.listen(port, () => {
     wakeUpDyno(apiurl);
   });

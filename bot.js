@@ -6,18 +6,23 @@ module.exports = function() {
   const bot = new Telegraf(process.env.TELEGRAM_KEY);
   const axios = require("axios");
   const apiurl = process.env.API_ENDPOINT;
+  const fetch = require("node-fetch");
 
   bot.use(Telegraf.log());
   bot.start(message => {
-    const header = "<b>Hello Crossfitter! 🏋️‍♀️ 🏃‍♀️ 🤸‍♀️</b>"
-    const subtitle = "This is a bot that generates wods!"
-    const content = "type <em>random, generate, create, etc.</em> if you want a random wod or type es.<em>emom, clean&jerk, amrap 25, row, for time </em> or every skill that comes to your mind, for get a matching wod."
-    const footer = "if you need help type /wod command."
-    return message.replyWithHTML(`${header}\n\ ${subtitle}\n\ ${content}\n\ ${footer}`);
+    const header = "<b>Hello Crossfitter! 🏋️‍♀️ 🏃‍♀️ 🤸‍♀️</b>";
+    const subtitle = "This is a bot that generates wods!";
+    const content =
+      "type <em>random, generate, create, etc.</em> if you want a random wod or type es.<em>emom, clean&jerk, amrap 25, row, for time </em> or every skill that comes to your mind, for get a matching wod.";
+    const footer = "if you need help type /wod command.";
+    return message.replyWithHTML(
+      `${header}\n\ ${subtitle}\n\ ${content}\n\ ${footer}`
+    );
   });
+
   bot.command("wod", ({ reply }) =>
     reply(
-      "One time keyboard",
+      "Select an option 🏋️‍♂️",
       Markup.keyboard(["emom", "amrap", "for time", "random"])
         .oneTime()
         .resize()
@@ -59,6 +64,31 @@ module.exports = function() {
           "🏋️‍♀️ sorry but wie didn't find the exericse"
         );
       });
+  });
+
+  bot.on("inline_query", async ({ inlineQuery, answerInlineQuery, reply }) => {
+    const response = await axios
+      .get(`${apiurl}wods/${inlineQuery.query}`)
+      .then(res => {
+        const data = res.data;
+        return data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    const wods = await{
+        type: "article",
+        id: Date.now(),
+        title: inlineQuery.query,
+        description: 'click here to get your wod',
+        input_message_content: {
+          message_text: response.content ? response.content : 'we had not fount result'
+        }
+      };
+
+    return answerInlineQuery([wods]);
+    
   });
 
   bot.launch();
