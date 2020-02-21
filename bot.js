@@ -80,8 +80,9 @@ module.exports = function() {
     const wods = await{
         type: "article",
         id: Date.now(),
-        title: 'yiu are searching for:' + inlineQuery.query,
+        title: 'you are searching for:' + inlineQuery.query,
         description: 'click here to get your wod',
+        thumb_url: 'https://www.crossfitteramo.it/wp-content/uploads/2016/02/slider3.jpg',
         input_message_content: {
           message_text: response.content ? response.content : 'we had not fount result'
         }
